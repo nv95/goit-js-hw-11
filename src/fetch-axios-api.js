@@ -19,7 +19,7 @@ export default class SeacrchApiService {
     }
 
     incrementPage(){
-        this.page +=1
+        this.page +=1;
     }
      
     resetPage() {

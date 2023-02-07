@@ -1,5 +1,6 @@
 import SeacrchApiService from "./fetch-axios-api";
 import renderImgMarcup from "./renderImgMarcup";
+import Notiflix from "notiflix";
 
 const refs = {
    serchFrom: document.querySelector('.search-form'),
@@ -8,7 +9,6 @@ const refs = {
 }
 
 const seacrchApiService = new SeacrchApiService();
-console.log(seacrchApiService);
 
 refs.serchFrom.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
@@ -16,9 +16,17 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 function onSearch(e){
    e.preventDefault();
 
-   seacrchApiService.query = e.currentTarget.elements.searchQuery.value;
+   
+   seacrchApiService.searchQuery = e.currentTarget.elements.searchQuery.value;
+   
+   if(seacrchApiService.searchQuery ===''){
+      Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+   }
+
    seacrchApiService.resetPage();
-   seacrchApiService.fetchHits().then(appendHitsMarcup);
+   seacrchApiService.fetchHits().then( hits =>{
+      clearHitsGallery()
+      appendHitsMarcup(hits)});
 }
 
 function onLoadMore() {
@@ -27,4 +35,8 @@ function onLoadMore() {
 
 function appendHitsMarcup(hits) {
    refs.hitsGalerry.insertAdjacentHTML('beforeend', renderImgMarcup(hits));
+}
+
+function clearHitsGallery(){
+   refs.hitsGalerry.innerHTML = '';
 }

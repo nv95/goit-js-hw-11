@@ -118,6 +118,12 @@ async function onLoadMore() {
              refs.loadMoreBtn.classList.add('visually-hidden');
              Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");         
           }
+      let gallery = new SimpleLightbox('.gallery a', {
+           captions: true,
+           captionsData: 'alt',
+           captionDelay: 250,
+         });
+         gallery.refresh();
   }
 
 }
